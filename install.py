@@ -37,15 +37,27 @@ def install_requirements(
         raise Exception("😭 Failed to install Git LFS and soundfile")
     else:
         print("✅ Git LFS installed!")
+    print("⏳ Using latest datasets ...")
+    datasets_cmd = "python -m pip install --upgrade datasets".split()
+    process_datasets = subprocess.run(
+        datasets_cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if process_datasets.returncode == -1:
+        raise Exception("😭 Failed to install datasets")
+    else:
+        print("✅ datasets installed!")
 
     if is_chapter2:
-        transformers_cmd = "python -m pip install transformers==4.13.0 datasets==2.8.0".split()
+        """transformers_cmd = "python -m pip install transformers==4.13.0 datasets==2.8.0".split()"""
+        transformers_cmd = "python -m pip install transformers==4.13.0".split()
         process_scatter = subprocess.run(
             transformers_cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
-
+    """
     if is_chapter6:
         transformers_cmd = "python -m pip install datasets==2.0.0".split()
         process_scatter = subprocess.run(
@@ -53,6 +65,7 @@ def install_requirements(
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
+    """
 
     if is_chapter10:
         wandb_cmd = "python -m pip install wandb".split()
